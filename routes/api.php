@@ -37,7 +37,7 @@ Route::middleware('auth:api')->group(function () {
         Route::post('refresh-token', [OtpAuthController::class, 'refreshToken']);
         Route::get('tokens', [OtpAuthController::class, 'getTokens']);
         Route::delete('tokens', [OtpAuthController::class, 'revokeAllTokens']);
-        Route::put('preferred-project-type', [OtpAuthController::class, 'updatePreferredProjectType']);
+        Route::put('preferred-project-types', [OtpAuthController::class, 'updatePreferredProjectTypes']);
     });
 
     /**

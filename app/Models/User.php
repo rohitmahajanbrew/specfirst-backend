@@ -28,7 +28,9 @@ class User extends Authenticatable
         'avatar_url',
         'role',
         'onboarding_completed',
-        'preferred_project_type',
+        'completed_step',
+        'next_step',
+        'preferred_project_types',
         'device_type',
         'device_token',
         'last_login_at',
@@ -59,6 +61,7 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
             'last_login_at' => 'datetime',
+            'preferred_project_types' => 'array',
             'notification_preferences' => 'array',
             'metadata' => 'array',
             'onboarding_completed' => 'boolean',
@@ -82,11 +85,66 @@ class User extends Authenticatable
     }
 
     /**
-     * Get the user's preferred project type.
+     * Get the user's preferred project types.
      */
-    public function preferredProjectType()
+    public function preferredProjectTypes()
     {
-        return $this->belongsTo(ProjectType::class, 'preferred_project_type', 'slug');
+        return $this->belongsToMany(ProjectType::class, null, 'id', 'slug')
+            ->whereIn('slug', $this->preferred_project_types ?? []);
+    }
+
+    /**
+     * Get the user's preferred project types as a collection.
+     */
+    public function getPreferredProjectTypesAttribute($value)
+    {
+        if (is_string($value)) {
+            return json_decode($value, true) ?? [];
+        }
+        return $value ?? [];
+    }
+
+    /**
+     * Set the user's preferred project types.
+     */
+    public function setPreferredProjectTypesAttribute($value)
+    {
+        if (is_array($value)) {
+            $this->attributes['preferred_project_types'] = json_encode($value);
+        } else {
+            $this->attributes['preferred_project_types'] = $value;
+        }
+    }
+
+    /**
+     * Add a project type to preferred types.
+     */
+    public function addPreferredProjectType(string $projectTypeSlug): void
+    {
+        $currentTypes = $this->preferred_project_types ?? [];
+        if (!in_array($projectTypeSlug, $currentTypes)) {
+            $currentTypes[] = $projectTypeSlug;
+            $this->preferred_project_types = $currentTypes;
+        }
+    }
+
+    /**
+     * Remove a project type from preferred types.
+     */
+    public function removePreferredProjectType(string $projectTypeSlug): void
+    {
+        $currentTypes = $this->preferred_project_types ?? [];
+        $this->preferred_project_types = array_values(array_filter($currentTypes, function($type) use ($projectTypeSlug) {
+            return $type !== $projectTypeSlug;
+        }));
+    }
+
+    /**
+     * Check if user has a specific preferred project type.
+     */
+    public function hasPreferredProjectType(string $projectTypeSlug): bool
+    {
+        return in_array($projectTypeSlug, $this->preferred_project_types ?? []);
     }
 
     /**
@@ -200,4 +258,5 @@ class User extends Authenticatable
     {
         return $this->email;
     }
+
 }
