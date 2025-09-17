@@ -1,0 +1,437 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "Requirements Platform API",
+        "description": "A comprehensive API for the Requirements Gathering Platform with AI Interviews, Project Management, and Vendor Marketplace",
+        "contact": {
+            "email": "api@requirementsplatform.com"
+        },
+        "license": {
+            "name": "MIT",
+            "url": "https://opensource.org/licenses/MIT"
+        },
+        "version": "1.0.0"
+    },
+    "servers": [
+        {
+            "url": "http://127.0.0.1:8000",
+            "description": "Local Development Server"
+        }
+    ],
+    "paths": {
+        "/api/auth/send-otp": {
+            "post": {
+                "tags": [
+                    "Authentication"
+                ],
+                "summary": "Send OTP for authentication",
+                "description": "Sends a One-Time Password to the user's email for unified login/signup authentication",
+                "operationId": "cc2f74c7b73e03489273073abbf9c2b6",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "email"
+                                ],
+                                "properties": {
+                                    "email": {
+                                        "type": "string",
+                                        "format": "email",
+                                        "example": "user@example.com"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "OTP sent successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "OTP sent successfully to your email."
+                                        },
+                                        "expires_at": {
+                                            "type": "string",
+                                            "format": "datetime"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": false
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "User not found with this email address."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": false
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Invalid email address or user not found."
+                                        },
+                                        "errors": {
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/auth/verify-otp": {
+            "post": {
+                "tags": [
+                    "Authentication"
+                ],
+                "summary": "Verify OTP and authenticate user",
+                "description": "Verifies the OTP code, creates user if new, and returns a JWT access token for API authentication",
+                "operationId": "efbb4ac4c9dccc57ea92bf3b08ad2615",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "email",
+                                    "otp_code"
+                                ],
+                                "properties": {
+                                    "email": {
+                                        "type": "string",
+                                        "format": "email",
+                                        "example": "user@example.com"
+                                    },
+                                    "otp_code": {
+                                        "type": "string",
+                                        "maxLength": 6,
+                                        "minLength": 6,
+                                        "example": "123456"
+                                    },
+                                    "name": {
+                                        "description": "Name for new users (optional)",
+                                        "type": "string",
+                                        "example": "John Doe"
+                                    },
+                                    "full_name": {
+                                        "description": "Full name (optional)",
+                                        "type": "string",
+                                        "example": "John Doe"
+                                    },
+                                    "company_name": {
+                                        "description": "Company name (optional)",
+                                        "type": "string",
+                                        "example": "Acme Corp"
+                                    },
+                                    "phone_number": {
+                                        "description": "Phone number (optional)",
+                                        "type": "string",
+                                        "example": "+1234567890"
+                                    },
+                                    "device_type": {
+                                        "type": "string",
+                                        "enum": [
+                                            "web",
+                                            "mobile",
+                                            "tablet"
+                                        ],
+                                        "example": "mobile"
+                                    },
+                                    "device_token": {
+                                        "type": "string",
+                                        "example": "fcm_token_for_notifications"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Authentication successful",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Logged in successfully."
+                                        },
+                                        "is_new_user": {
+                                            "description": "True if user was just created",
+                                            "type": "boolean",
+                                            "example": false
+                                        },
+                                        "access_token": {
+                                            "type": "string",
+                                            "example": "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9..."
+                                        },
+                                        "token_type": {
+                                            "type": "string",
+                                            "example": "Bearer"
+                                        },
+                                        "expires_at": {
+                                            "type": "string",
+                                            "format": "datetime"
+                                        },
+                                        "scopes": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "string"
+                                            },
+                                            "example": [
+                                                "read-projects",
+                                                "write-projects"
+                                            ]
+                                        },
+                                        "user": {
+                                            "properties": {
+                                                "id": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "name": {
+                                                    "type": "string",
+                                                    "example": "John Doe"
+                                                },
+                                                "email": {
+                                                    "type": "string",
+                                                    "example": "user@example.com"
+                                                },
+                                                "role": {
+                                                    "type": "string",
+                                                    "example": "user"
+                                                },
+                                                "onboarding_completed": {
+                                                    "type": "boolean",
+                                                    "example": true
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid OTP",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": false
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Invalid OTP code. 3 attempts remaining."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/auth/logout": {
+            "post": {
+                "tags": [
+                    "Authentication"
+                ],
+                "summary": "Logout user",
+                "description": "Revokes the current user's token and logs them out",
+                "operationId": "7f780f90078b68a04b254397682cdbbf",
+                "responses": {
+                    "200": {
+                        "description": "Logged out successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Logged out successfully."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "passport": []
+                    }
+                ]
+            }
+        },
+        "/api/auth/me": {
+            "get": {
+                "tags": [
+                    "Authentication"
+                ],
+                "summary": "Get current authenticated user",
+                "description": "Returns the current authenticated user's profile information",
+                "operationId": "f183a61319e032e96837855516403f6a",
+                "responses": {
+                    "200": {
+                        "description": "User profile retrieved successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "user": {
+                                            "properties": {
+                                                "id": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "name": {
+                                                    "type": "string",
+                                                    "example": "John Doe"
+                                                },
+                                                "email": {
+                                                    "type": "string",
+                                                    "example": "user@example.com"
+                                                },
+                                                "full_name": {
+                                                    "type": "string",
+                                                    "example": "John Doe"
+                                                },
+                                                "company_name": {
+                                                    "type": "string",
+                                                    "example": "Acme Corp"
+                                                },
+                                                "role": {
+                                                    "type": "string",
+                                                    "example": "user"
+                                                },
+                                                "onboarding_completed": {
+                                                    "type": "boolean",
+                                                    "example": true
+                                                },
+                                                "device_type": {
+                                                    "type": "string",
+                                                    "example": "mobile"
+                                                },
+                                                "created_at": {
+                                                    "type": "string",
+                                                    "format": "datetime"
+                                                },
+                                                "last_login_at": {
+                                                    "type": "string",
+                                                    "format": "datetime"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": false
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Not authenticated."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "passport": []
+                    }
+                ]
+            }
+        }
+    },
+    "components": {
+        "securitySchemes": {
+            "passport": {
+                "type": "http",
+                "description": "Enter token in format (Bearer <token>)",
+                "bearerFormat": "JWT",
+                "scheme": "bearer"
+            }
+        }
+    },
+    "tags": [
+        {
+            "name": "Authentication",
+            "description": "OTP-based authentication endpoints"
+        }
+    ]
+}
