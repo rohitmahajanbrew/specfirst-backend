@@ -296,6 +296,9 @@ class OtpAuthController extends Controller
             ], 401);
         }
 
+        // Load the preferred project type details
+        $user->load('preferredProjectType');
+
         return response()->json([
             'success' => true,
             'user' => [
@@ -310,6 +313,15 @@ class OtpAuthController extends Controller
                 'avatar_url' => $user->avatar_url,
                 'timezone' => $user->timezone,
                 'locale' => $user->locale,
+                'preferred_project_type' => $user->preferred_project_type,
+                'project_type_details' => $user->preferredProjectType ? [
+                    'id' => $user->preferredProjectType->id,
+                    'name' => $user->preferredProjectType->name,
+                    'slug' => $user->preferredProjectType->slug,
+                    'description' => $user->preferredProjectType->description,
+                    'icon' => $user->preferredProjectType->icon,
+                    'color' => $user->preferredProjectType->color,
+                ] : null,
                 'last_login_at' => $user->last_login_at,
                 'device_type' => $user->device_type,
                 'created_at' => $user->created_at,
@@ -446,6 +458,105 @@ class OtpAuthController extends Controller
             case 'user':
             default:
                 return ['read-projects', 'write-projects', 'manage-collaborators'];
+        }
+    }
+
+    /**
+     * @OA\Put(
+     *     path="/api/auth/preferred-project-type",
+     *     tags={"Authentication"},
+     *     summary="Update user's preferred project type",
+     *     description="Updates the authenticated user's preferred project type",
+     *     security={{"passport": {}}},
+     *     @OA\RequestBody(
+     *         required=true,
+     *         @OA\JsonContent(
+     *             required={"project_type"},
+     *             @OA\Property(property="project_type", type="string", example="web_app", description="Project type slug")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Preferred project type updated successfully",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="success", type="boolean", example=true),
+     *             @OA\Property(property="message", type="string", example="Preferred project type updated successfully."),
+     *             @OA\Property(property="user", type="object",
+     *                 @OA\Property(property="id", type="integer", example=1),
+     *                 @OA\Property(property="preferred_project_type", type="string", example="web_app"),
+     *                 @OA\Property(property="project_type_details", type="object",
+     *                     @OA\Property(property="id", type="integer", example=1),
+     *                     @OA\Property(property="name", type="string", example="Web App"),
+     *                     @OA\Property(property="slug", type="string", example="web_app"),
+     *                     @OA\Property(property="description", type="string", example="Dashboards, SaaS, Portals"),
+     *                     @OA\Property(property="icon", type="string", example="🌐"),
+     *                     @OA\Property(property="color", type="string", example="#3b82f6")
+     *                 )
+     *             )
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=422,
+     *         description="Validation error",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="success", type="boolean", example=false),
+     *             @OA\Property(property="message", type="string", example="Invalid project type."),
+     *             @OA\Property(property="errors", type="object")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=401,
+     *         description="Unauthenticated",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="Unauthenticated.")
+     *         )
+     *     )
+     * )
+     */
+    public function updatePreferredProjectType(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'project_type' => 'required|string|exists:project_types,slug',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Invalid project type.',
+                'errors' => $validator->errors(),
+            ], 422);
+        }
+
+        try {
+            $user = $request->user();
+            $user->preferred_project_type = $request->project_type;
+            $user->save();
+
+            // Load the project type details
+            $user->load('preferredProjectType');
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Preferred project type updated successfully.',
+                'user' => [
+                    'id' => $user->id,
+                    'preferred_project_type' => $user->preferred_project_type,
+                    'project_type_details' => $user->preferredProjectType ? [
+                        'id' => $user->preferredProjectType->id,
+                        'name' => $user->preferredProjectType->name,
+                        'slug' => $user->preferredProjectType->slug,
+                        'description' => $user->preferredProjectType->description,
+                        'icon' => $user->preferredProjectType->icon,
+                        'color' => $user->preferredProjectType->color,
+                    ] : null,
+                ],
+            ]);
+
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Failed to update preferred project type. Please try again.',
+            ], 500);
         }
     }
 }

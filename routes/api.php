@@ -23,6 +23,10 @@ Route::prefix('auth')->group(function () {
     Route::post('resend-otp', [OtpAuthController::class, 'resendOtp']);
 });
 
+// Public project types (no authentication required)
+Route::get('project-types', [App\Http\Controllers\ProjectTypeController::class, 'index']);
+Route::get('project-types/{projectType}', [App\Http\Controllers\ProjectTypeController::class, 'show']);
+
 // Protected API routes (require authentication)
 Route::middleware('auth:api')->group(function () {
     
@@ -33,6 +37,7 @@ Route::middleware('auth:api')->group(function () {
         Route::post('refresh-token', [OtpAuthController::class, 'refreshToken']);
         Route::get('tokens', [OtpAuthController::class, 'getTokens']);
         Route::delete('tokens', [OtpAuthController::class, 'revokeAllTokens']);
+        Route::put('preferred-project-type', [OtpAuthController::class, 'updatePreferredProjectType']);
     });
 
     /**

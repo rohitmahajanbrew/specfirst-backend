@@ -82,6 +82,14 @@ class User extends Authenticatable
     }
 
     /**
+     * Get the user's preferred project type.
+     */
+    public function preferredProjectType()
+    {
+        return $this->belongsTo(ProjectType::class, 'preferred_project_type', 'slug');
+    }
+
+    /**
      * Get the user's projects relationship.
      */
     public function projects()

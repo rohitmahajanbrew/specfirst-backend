@@ -424,6 +424,308 @@
                     }
                 ]
             }
+        },
+        "/api/auth/preferred-project-type": {
+            "put": {
+                "tags": [
+                    "Authentication"
+                ],
+                "summary": "Update user's preferred project type",
+                "description": "Updates the authenticated user's preferred project type",
+                "operationId": "a2d57f89d9ada6e46ca7540015b2cdf2",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "project_type"
+                                ],
+                                "properties": {
+                                    "project_type": {
+                                        "description": "Project type slug",
+                                        "type": "string",
+                                        "example": "web_app"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Preferred project type updated successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Preferred project type updated successfully."
+                                        },
+                                        "user": {
+                                            "properties": {
+                                                "id": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "preferred_project_type": {
+                                                    "type": "string",
+                                                    "example": "web_app"
+                                                },
+                                                "project_type_details": {
+                                                    "properties": {
+                                                        "id": {
+                                                            "type": "integer",
+                                                            "example": 1
+                                                        },
+                                                        "name": {
+                                                            "type": "string",
+                                                            "example": "Web App"
+                                                        },
+                                                        "slug": {
+                                                            "type": "string",
+                                                            "example": "web_app"
+                                                        },
+                                                        "description": {
+                                                            "type": "string",
+                                                            "example": "Dashboards, SaaS, Portals"
+                                                        },
+                                                        "icon": {
+                                                            "type": "string",
+                                                            "example": "🌐"
+                                                        },
+                                                        "color": {
+                                                            "type": "string",
+                                                            "example": "#3b82f6"
+                                                        }
+                                                    },
+                                                    "type": "object"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": false
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Invalid project type."
+                                        },
+                                        "errors": {
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Unauthenticated."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "passport": []
+                    }
+                ]
+            }
+        },
+        "/api/project-types": {
+            "get": {
+                "tags": [
+                    "Project Types"
+                ],
+                "summary": "Get all project types",
+                "description": "Retrieve all available project types for the platform",
+                "operationId": "ea5a78e6ff366177b1b8012cb3455e9a",
+                "responses": {
+                    "200": {
+                        "description": "Project types retrieved successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "id": {
+                                                        "type": "integer",
+                                                        "example": 1
+                                                    },
+                                                    "name": {
+                                                        "type": "string",
+                                                        "example": "Web App"
+                                                    },
+                                                    "slug": {
+                                                        "type": "string",
+                                                        "example": "web_app"
+                                                    },
+                                                    "description": {
+                                                        "type": "string",
+                                                        "example": "Dashboards, SaaS, Portals"
+                                                    },
+                                                    "icon": {
+                                                        "type": "string",
+                                                        "example": "🌐"
+                                                    },
+                                                    "color": {
+                                                        "type": "string",
+                                                        "example": "#3b82f6"
+                                                    },
+                                                    "sort_order": {
+                                                        "type": "integer",
+                                                        "example": 1
+                                                    },
+                                                    "is_active": {
+                                                        "type": "boolean",
+                                                        "example": true
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/project-types/{slug}": {
+            "get": {
+                "tags": [
+                    "Project Types"
+                ],
+                "summary": "Get project type by slug",
+                "description": "Retrieve a specific project type by its slug",
+                "operationId": "b6d2d9cef20f185e45abf23d9c33055e",
+                "parameters": [
+                    {
+                        "name": "slug",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": "web_app"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Project type retrieved successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "data": {
+                                            "properties": {
+                                                "id": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "name": {
+                                                    "type": "string",
+                                                    "example": "Web App"
+                                                },
+                                                "slug": {
+                                                    "type": "string",
+                                                    "example": "web_app"
+                                                },
+                                                "description": {
+                                                    "type": "string",
+                                                    "example": "Dashboards, SaaS, Portals"
+                                                },
+                                                "icon": {
+                                                    "type": "string",
+                                                    "example": "🌐"
+                                                },
+                                                "color": {
+                                                    "type": "string",
+                                                    "example": "#3b82f6"
+                                                },
+                                                "sort_order": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "is_active": {
+                                                    "type": "boolean",
+                                                    "example": true
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Project type not found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": false
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Project type not found"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
         }
     },
     "components": {
@@ -440,6 +742,10 @@
         {
             "name": "Authentication",
             "description": "OTP-based authentication endpoints"
+        },
+        {
+            "name": "Project Types",
+            "description": "Project type management endpoints"
         }
     ]
 }

@@ -13,6 +13,9 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
+        // Seed project types first
+        $this->call(ProjectTypeSeeder::class);
+
         // User::factory(10)->create();
 
         User::factory()->create([

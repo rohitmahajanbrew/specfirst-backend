@@ -83,6 +83,14 @@ class Project extends Model
     }
 
     /**
+     * Get the project type.
+     */
+    public function projectType()
+    {
+        return $this->belongsTo(ProjectType::class, 'project_type', 'slug');
+    }
+
+    /**
      * Get the project versions.
      */
     public function versions()
