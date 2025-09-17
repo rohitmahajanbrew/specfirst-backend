@@ -16,6 +16,14 @@
         {
             "url": "http://127.0.0.1:8000",
             "description": "Local Development Server"
+        },
+        {
+            "url": "https://specfirst-api.netsolutionindia.com",
+            "description": "Staging Environment"
+        },
+        {
+            "url": "https://api.yourapp.com",
+            "description": "Production API Server"
         }
     ],
     "paths": {

@@ -1,61 +1,239 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Requirements Gathering Platform with AI Interviews
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+A Laravel-based platform that revolutionizes project requirements gathering through AI-powered interviews, seamless user onboarding, and comprehensive project management.
 
-## About Laravel
+[![Laravel](https://img.shields.io/badge/Laravel-11.x-red.svg)](https://laravel.com)
+[![PHP](https://img.shields.io/badge/PHP-8.3+-blue.svg)](https://php.net)
+[![License](https://img.shields.io/badge/license-MIT-green.svg)](https://opensource.org/licenses/MIT)
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+## 🌟 Features
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+### 🔐 **Unified Authentication System**
+- **Passwordless Authentication**: OTP-based login via email
+- **Unified Login/Signup**: Single flow handles both new and existing users
+- **Laravel Passport Integration**: JWT tokens for secure API access
+- **Role-Based Access Control**: Admin, vendor, and user roles with appropriate scopes
+- **Device Management**: Track user devices and push notifications
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+### 🤖 **AI-Powered Requirements Gathering**
+- **Interactive AI Interviews**: Intelligent conversation flows to extract project requirements
+- **Multiple Interview Templates**: Pre-built templates for different project types
+- **Quick Replies**: AI-suggested responses to streamline the interview process
+- **Real-time Progress Tracking**: Monitor interview completion and quality
 
-## Learning Laravel
+### 📋 **Comprehensive Project Management**
+- **Project Versioning**: Track changes and maintain project history
+- **Collaborative Workspaces**: Multi-user project collaboration
+- **Export Capabilities**: Generate requirements documents in multiple formats
+- **Template Library**: Reusable project templates and compliance requirements
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+### 🏢 **Vendor Management System**
+- **Vendor Marketplace**: Connect with qualified service providers
+- **Project Lead Generation**: Vendors can bid on projects
+- **Review System**: Rate and review vendor performance
+- **Matching Algorithm**: AI-powered vendor-project matching
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+### 📊 **Analytics & Insights**
+- **Usage Analytics**: Track platform usage and user behavior
+- **Feature Usage Metrics**: Monitor feature adoption and engagement
+- **Project Success Tracking**: Measure project completion rates
+- **Performance Dashboards**: Real-time platform analytics
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+## 🚀 Quick Start
 
-## Laravel Sponsors
+### Prerequisites
+- PHP 8.3 or higher
+- Composer
+- MySQL 8.0 or higher
+- Node.js & NPM (for frontend assets)
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+### Installation
 
-### Premium Partners
+1. **Clone the repository**
+   ```bash
+   git clone <repository-url>
+   cd specfirst
+   ```
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+2. **Install dependencies**
+   ```bash
+   composer install
+   npm install
+   ```
 
-## Contributing
+3. **Environment setup**
+   ```bash
+   cp .env.example .env
+   php artisan key:generate
+   ```
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+4. **Database configuration**
+   Update your `.env` file with database credentials:
+   ```env
+   DB_CONNECTION=mysql
+   DB_HOST=127.0.0.1
+   DB_PORT=3306
+   DB_DATABASE=specfirst
+   DB_USERNAME=your_username
+   DB_PASSWORD=your_password
+   ```
 
-## Code of Conduct
+5. **Run migrations**
+   ```bash
+   php artisan migrate
+   ```
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+6. **Install Laravel Passport**
+   ```bash
+   php artisan passport:install
+   ```
 
-## Security Vulnerabilities
+7. **Start the development server**
+   ```bash
+   php artisan serve
+   ```
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+The application will be available at `http://127.0.0.1:8000`
 
-## License
+## 📚 Swagger Documentation
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+Interactive Swagger UI documentation is available at:
+```
+http://127.0.0.1:8000/api/documentation
+```
+
+### 📋 **Swagger Features**
+- **Interactive Testing**: Test endpoints directly from the browser
+- **Request/Response Examples**: Complete payload examples for all endpoints
+- **Authentication Support**: Built-in Bearer token authentication
+- **Schema Validation**: Request and response schema documentation
+- **Try It Out**: Execute real requests against the live application
+
+### 🔐 **Authentication Documentation**
+- **OTP Authentication**: Passwordless login with email verification
+- **Unified Flow**: Single endpoint handles both login and signup
+- **JWT Token Management**: Bearer token authentication with scopes
+- **Session Management**: Token creation, refresh, and revocation
+
+### 📝 **Documentation Generation**
+The Swagger documentation is automatically generated from:
+- **Controller Annotations**: OpenAPI 3.0 annotations in controllers
+- **Model Schemas**: Automatic schema generation from Eloquent models  
+- **Request Validation**: Documentation from Laravel form requests
+- **Response Examples**: Real response examples from the application
+
+### 🔧 **Swagger Configuration**
+```php
+// config/l5-swagger.php
+'default' => 'default',
+'documentations' => [
+    'default' => [
+        'api' => [
+            'title' => 'Requirements Gathering Platform API',
+            'version' => '1.0.0',
+        ],
+        'routes' => [
+            'api' => 'api/documentation',
+        ],
+        'paths' => [
+            'use_absolute_path' => env('L5_SWAGGER_USE_ABSOLUTE_PATH', true),
+            'docs_json' => 'api-docs.json',
+            'docs_yaml' => 'api-docs.yaml',
+            'annotations' => [
+                base_path('app/Http/Controllers'),
+            ],
+        ],
+    ],
+],
+```
+
+### 📖 **How to Use Swagger UI**
+1. **Navigate** to `http://127.0.0.1:8000/api/documentation`
+2. **Authenticate** using the "Authorize" button with Bearer token
+3. **Explore** endpoints organized by tags (Authentication, Projects, etc.)
+4. **Test** endpoints using the "Try it out" button
+5. **View** request/response schemas and examples
+
+## 🛡️ Security Features
+
+### Authentication Security
+- **OTP Rate Limiting**: Prevents spam and abuse
+- **Token Expiration**: Configurable JWT token lifetimes
+- **Scope-Based Access**: Granular permission control
+- **Device Tracking**: Monitor login devices and locations
+
+### Data Protection
+- **Input Validation**: Comprehensive request validation
+- **SQL Injection Prevention**: Eloquent ORM protection
+- **XSS Protection**: Output sanitization
+- **CSRF Protection**: Laravel's built-in CSRF tokens
+
+### Testing Configuration
+- **Static OTP**: Development uses `123456` for testing
+- **No Email Sending**: OTP codes logged instead of emailed
+- **Debug Logging**: Comprehensive error and activity logging
+
+## 🔧 Configuration
+
+### OTP Settings
+```php
+// In OtpService.php
+- OTP Code: Static "123456" (development)
+- Expiration: 10 minutes
+- Max Attempts: 5
+- Rate Limiting: 1 per minute
+```
+
+### Token Scopes
+```php
+// User roles and their API scopes
+'admin' => ['*']  // Full access
+'vendor' => ['read-projects', 'write-projects', 'manage-leads']
+'user' => ['read-projects', 'write-projects', 'manage-collaborators']
+```
+
+## 🧪 Testing
+
+### Swagger Testing
+Use the interactive Swagger UI for comprehensive testing:
+1. **Open** `http://127.0.0.1:8000/api/documentation`
+2. **Test Authentication Flow**:
+   - Send OTP using `/api/auth/send-otp`
+   - Verify OTP using `/api/auth/verify-otp`
+   - Copy the returned Bearer token
+3. **Authorize** by clicking "Authorize" and pasting the token
+4. **Test Protected Endpoints** like `/api/auth/me` and `/api/auth/logout`
+
+### Development Testing Notes
+- **OTP Code**: Always use `123456` for development
+- **Email**: Any valid email format works (user created if new)
+- **Rate Limiting**: Wait 1 minute between OTP requests for same email
+- **Token Expiry**: Tokens expire after configured time (default: 6 months)
+
+## 🤝 Contributing
+
+1. Fork the repository
+2. Create a feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit your changes (`git commit -m 'Add amazing feature'`)
+4. Push to the branch (`git push origin feature/amazing-feature`)
+5. Open a Pull Request
+
+### Development Guidelines
+- Follow PSR-12 coding standards
+- Write comprehensive tests
+- Update documentation for new features
+- Use conventional commit messages
+
+## 📄 License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+## 🆘 Support
+
+- **Documentation**: [Swagger UI](http://127.0.0.1:8000/api/documentation)
+- **Issues**: [GitHub Issues](https://github.com/your-repo/issues)
+- **Email**: support@specfirst.com
+
+---
+
+**Built with ❤️ using Laravel 11**

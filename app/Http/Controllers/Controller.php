@@ -21,6 +21,16 @@ namespace App\Http\Controllers;
  *     description="Local Development Server"
  * )
  * 
+ * @OA\Server(
+ *     url="https://specfirst-api.netsolutionindia.com",
+ *     description="Staging Environment"
+ * )
+ * 
+ * @OA\Server(
+ *     url="https://api.yourapp.com",
+ *     description="Production API Server"
+ * )
+ * 
  * @OA\SecurityScheme(
  *     securityScheme="passport",
  *     type="http",
