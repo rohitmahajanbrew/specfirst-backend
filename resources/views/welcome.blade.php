@@ -115,6 +115,11 @@
                     <li class="nav-item"><a class="nav-link text-white" href="#features">AI Features</a></li>
                     <li class="nav-item"><a class="nav-link text-white" href="#dashboard">Dashboard</a></li>
                     <li class="nav-item"><a class="nav-link text-white" href="#analytics">Analytics</a></li>
+                    <li class="nav-item ms-3">
+                        <a href="{{ route('admin.login') }}" class="btn btn-outline-light btn-sm">
+                            <i class="fas fa-shield-alt me-2"></i>Admin Login
+                        </a>
+                    </li>
                 </ul>
             </div>
         </div>

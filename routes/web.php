@@ -5,6 +5,11 @@ use App\Http\Controllers\Auth\OtpAuthController;
 
 Route::get('/', function () {
     return view('welcome');
+})->name('welcome');
+
+// Admin panel access
+Route::get('/admin', function () {
+    return redirect()->route('admin.dashboard');
 });
 
 // OTP Authentication Routes (Unified Login/Signup)
